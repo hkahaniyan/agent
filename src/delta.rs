@@ -1,4 +1,3 @@
-use futures_util::StreamExt;
 use tokio_tungstenite::tungstenite::Message;
 use futures_util::{StreamExt, SinkExt};
 // OHLCV candle struct for chart matching

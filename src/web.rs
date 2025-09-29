@@ -94,10 +94,16 @@ pub async fn run_web_dashboard_with_signals(signal_store: SignalStore) {
         "#)
     });
 
-    let api = warp::path("api").and(warp::path("signals")).and(warp::get()).map(move || {
-    let signals = signal_store.lock().await;
-        warp::reply::json(&*signals)
-    });
+    let api = warp::path("api")
+        .and(warp::path("signals"))
+        .and(warp::get())
+        .and_then(move || {
+            let signal_store = signal_store.clone();
+            async move {
+                let signals = signal_store.lock().await;
+                Ok::<_, warp::Rejection>(warp::reply::json(&*signals))
+            }
+        });
 
     let routes = dashboard.or(api);
     warp::serve(routes).run(([0, 0, 0, 0], 8080)).await;

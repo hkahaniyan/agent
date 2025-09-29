@@ -6,7 +6,6 @@ mod web;
 use simple_logger::SimpleLogger;
 use log::{info, error};
 use tokio::time::{interval, Duration};
-use tokio::sync::Mutex;
 
 #[tokio::main]
 async fn main() {
@@ -24,7 +23,6 @@ async fn main() {
         }
     };
 
-    let timeframes = vec![("5m", 5), ("15m", 15), ("1h", 60), ("4h", 240), ("1d", 1440)];
     let telegram_token = std::env::var("TELEGRAM_BOT_TOKEN").expect("TELEGRAM_BOT_TOKEN not set");
     let telegram_chat_id = std::env::var("TELEGRAM_CHAT_ID").expect("TELEGRAM_CHAT_ID not set");
     let telegram_bot = telegram::TelegramBot::new(telegram_token, telegram_chat_id);
