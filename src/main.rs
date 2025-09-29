@@ -6,7 +6,7 @@ mod web;
 use simple_logger::SimpleLogger;
 use log::{info, error};
 use tokio::time::{interval, Duration};
-use std::sync::{Arc, Mutex};
+use tokio::sync::Mutex;
 
 #[tokio::main]
 async fn main() {

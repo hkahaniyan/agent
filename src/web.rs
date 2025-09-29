@@ -1,8 +1,7 @@
 // Web dashboard using Warp
 use warp::Filter;
 
-use std::sync::{Arc, Mutex};
-use warp::Reply;
+use tokio::sync::Mutex;
 
 // Shared state for live signals
 #[derive(Clone, Debug, serde::Serialize)]

@@ -1,4 +1,5 @@
 // Telegram bot integration
+#[derive(Clone)]
 pub struct TelegramBot {
     pub token: String,
     pub chat_id: String,

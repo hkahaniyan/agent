@@ -35,6 +35,7 @@ pub struct DeltaClient {
 }
 
 impl DeltaClient {
+    use tokio_tungstenite::tungstenite::Message;
     // Connects to Delta Exchange WebSocket for real-time price updates (5m base timeframe)
     pub async fn stream_realtime_prices<F>(&self, symbols: Vec<String>, mut on_price: F)
     where
@@ -61,7 +62,7 @@ impl DeltaClient {
                         let _ = write.send(tokio_tungstenite::tungstenite::Message::Text(sub_msg.to_string())).await;
                     }
                     while let Some(msg) = read.next().await {
-                        if let Ok(tokio_tungstenite::tungstenite::Message::Text(txt)) = msg {
+                        if let Ok(Message::Text(txt)) = msg {
                             if let Ok(json) = serde_json::from_str::<serde_json::Value>(&txt) {
                                 if let Some(data) = json.get("data") {
                                     if let (Some(symbol), Some(price), Some(volume)) = (data.get("symbol"), data.get("mark_price"), data.get("volume_24h")) {
