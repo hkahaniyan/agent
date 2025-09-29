@@ -114,7 +114,7 @@ async fn main() {
                 }
             }
             // Update shared signal store
-            let mut store = signal_store_signal.lock().unwrap();
+            let mut store = signal_store_signal.lock().await;
             *store = new_signals;
         }
     });

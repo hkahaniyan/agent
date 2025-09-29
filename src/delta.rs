@@ -1,3 +1,6 @@
+use futures_util::StreamExt;
+use tokio_tungstenite::tungstenite::Message;
+use futures_util::{StreamExt, SinkExt};
 // OHLCV candle struct for chart matching
 #[derive(Clone, Debug)]
 pub struct Candle {
@@ -59,7 +62,7 @@ impl DeltaClient {
                             "type": "subscribe",
                             "channels": [{"name": "v2/ticker", "symbols": [symbol]}]
                         });
-                        let _ = write.send(tokio_tungstenite::tungstenite::Message::Text(sub_msg.to_string())).await;
+                        let _ = write.send(tokio_tungstenite::tungstenite::Message::Text(sub_msg.to_string().into())).await;
                     }
                     while let Some(msg) = read.next().await {
                         if let Ok(Message::Text(txt)) = msg {

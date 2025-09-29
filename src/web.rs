@@ -1,3 +1,4 @@
+use std::sync::Arc;
 // Web dashboard using Warp
 use warp::Filter;
 
@@ -94,7 +95,7 @@ pub async fn run_web_dashboard_with_signals(signal_store: SignalStore) {
     });
 
     let api = warp::path("api").and(warp::path("signals")).and(warp::get()).map(move || {
-        let signals = signal_store.lock().unwrap();
+    let signals = signal_store.lock().await;
         warp::reply::json(&*signals)
     });
 
